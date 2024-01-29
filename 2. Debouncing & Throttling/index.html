@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debouncing & Throttling</title>
+    <style>
+        section{
+            height: 160vh;
+        }
+        p{
+            font-size: 3rem;
+        }
+    </style>
+</head>
+<body onscroll="showCount()">
+    <section>
+        <p class="n_count">Normal Count</p>
+        <p class="t_count">Throttle Count</p>
+        <p class="d_count">Debounce Count</p>
+    </section>
+
+    <script>
+
+        const normalDiv = document.querySelector('.n_count');
+        const throttleDiv = document.querySelector('.t_count');
+        const debounceDiv = document.querySelector('.d_count');
+        let n_cnt = 0;
+        let t_cnt = 0;
+        let d_cnt = 0;
+        let isScrolling = true;
+
+        const normalCount = ()=> {
+            n_cnt++;
+            normalDiv.innerHTML = `Normal Count: ${n_cnt}`;
+        }
+
+        const throttleCount = ()=> {
+            if(isScrolling===true){
+
+                t_cnt++;
+                throttleDiv.innerHTML = `Throttle Count: ${t_cnt}`;
+                isScrolling = false;
+                setTimeout(()=>{
+                    isScrolling = true;
+                },1000)
+            }
+        }
+
+        let interval;
+
+        const debounceCount = ()=> {
+            clearTimeout(interval);
+
+            interval = setTimeout(()=>{
+                d_cnt++;
+                debounceDiv.innerHTML = `Debounce Count: ${d_cnt}`;
+            },1000)
+        }
+
+        const showCount = ()=> {
+            normalCount();
+            throttleCount();
+            debounceCount();
+        }
+
+    </script>
+    
+</body>
+</html>
